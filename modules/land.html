@@ -1,0 +1,640 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Capitalism Game Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Capitalism Game</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/audit.html">audit</a></li>
+  <li><a href="../modules/banking.html">banking</a></li>
+  <li><a href="../modules/company.html">company</a></li>
+  <li><strong>land</strong></li>
+  <li><a href="../modules/shop.html">shop</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/dev_intro.md.html">dev_intro</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>land</code></h1>
+<p>Introduces land plots, and modifies areas to allow companies to own land.</p>
+<p> This mod current uses areas as a backend, which means that a plot = an area.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#get_area_tree">get_area_tree (list, owner)</a></td>
+	<td class="summary">Generates a tree representing land ownership hierarchy for a particular owner.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_all">get_all (owner)</a></td>
+	<td class="summary">Gets all plots owned by a particular owner</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_by_pos">get_by_pos (pos)</a></td>
+	<td class="summary">Gets the owning plot of a particular area</p>
+
+<p> There is at most one owning area of a particular position; because
+ plots must not overlap, and any child of a plot most be fully contained.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_by_area_id">get_by_area_id (id)</a></td>
+	<td class="summary">Gets a plot by its area ID (as in the mod area)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#transfer">transfer (id, newowner, pname)</a></td>
+	<td class="summary">Transfers a plot between two owners, after checking relevant permissions.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#can_set_price">can_set_price (area, pname)</a></td>
+	<td class="summary">Whether a user can put a plot up for sale, or change the price when already
+ for sale</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_price">set_price (area, pname, price)</a></td>
+	<td class="summary">Puts a plot up for sale, or changes the price when already for sale</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#can_buy">can_buy (area, pname, comp)</a></td>
+	<td class="summary">Whether a user can buy a plot</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#buy">buy (area, pname)</a></td>
+	<td class="summary">Buy a plot</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#can_teleport_to">can_teleport_to (area, pname)</a></td>
+	<td class="summary">Whether a user can teleport to a plot</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#teleport_to">teleport_to (area, player)</a></td>
+	<td class="summary">Teleport a user to a plot</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#can_set_spawn">can_set_spawn (area, pname)</a></td>
+	<td class="summary">Whether a user can set the spawn of a plot</td>
+	</tr>
+</table>
+<h2><a href="#Tables">Tables</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#valid_types">valid_types</a></td>
+	<td class="summary">Dictionary of valid types</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#land">land</a></td>
+	<td class="summary">land table</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "get_area_tree"></a>
+    <strong>get_area_tree (list, owner)</strong>
+    </dt>
+    <dd>
+    Generates a tree representing land ownership hierarchy for a particular owner.</p>
+
+<p> Each element returned will have a children property, which will be a table
+ of child elements.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">list</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">[table]</a></span>
+         A list of owned areas
+        </li>
+        <li><span class="parameter">owner</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Player name or company name
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">(table,table)</a></span>
+        root, area by id
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_all"></a>
+    <strong>get_all (owner)</strong>
+    </dt>
+    <dd>
+    Gets all plots owned by a particular owner
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">owner</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Player name or company name
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">[table]</a></span>
+        List of plots
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_by_pos"></a>
+    <strong>get_by_pos (pos)</strong>
+    </dt>
+    <dd>
+    Gets the owning plot of a particular area</p>
+
+<p> There is at most one owning area of a particular position; because
+ plots must not overlap, and any child of a plot most be fully contained.</p>
+
+<p> This function essential returns the lowest plot in the tree at a particular
+ point
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">[table]</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_by_area_id"></a>
+    <strong>get_by_area_id (id)</strong>
+    </dt>
+    <dd>
+    Gets a plot by its area ID (as in the mod area)
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+            <span class="types"><span class="type">int</span></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        plot
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "transfer"></a>
+    <strong>transfer (id, newowner, pname)</strong>
+    </dt>
+    <dd>
+    Transfers a plot between two owners, after checking relevant permissions.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+            <span class="types"><span class="type">int</span></span>
+
+        </li>
+        <li><span class="parameter">newowner</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">true</span></span>
+
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        </li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Error message</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "can_set_price"></a>
+    <strong>can_set_price (area, pname)</strong>
+    </dt>
+    <dd>
+    Whether a user can put a plot up for sale, or change the price when already
+ for sale
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">area</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">true</span></span>
+
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        </li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Error message</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_price"></a>
+    <strong>set_price (area, pname, price)</strong>
+    </dt>
+    <dd>
+    Puts a plot up for sale, or changes the price when already for sale
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">area</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">price</span>
+            <span class="types"><span class="type">number</span></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">true</span></span>
+
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        </li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Error message</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "can_buy"></a>
+    <strong>can_buy (area, pname, comp)</strong>
+    </dt>
+    <dd>
+    Whether a user can buy a plot
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">area</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">comp</span>
+            <span class="types"><a class="type" href="../modules/company.html#Company">company.Company</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">true</span></span>
+
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        </li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Error message</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "buy"></a>
+    <strong>buy (area, pname)</strong>
+    </dt>
+    <dd>
+    Buy a plot
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">area</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">true</span></span>
+
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        </li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Error message</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "can_teleport_to"></a>
+    <strong>can_teleport_to (area, pname)</strong>
+    </dt>
+    <dd>
+    Whether a user can teleport to a plot
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">area</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">true</span></span>
+
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        </li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Error message</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "teleport_to"></a>
+    <strong>teleport_to (area, player)</strong>
+    </dt>
+    <dd>
+    Teleport a user to a plot
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">area</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">player</span>
+         Player userdata
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">true</span></span>
+
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        </li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Error message</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "can_set_spawn"></a>
+    <strong>can_set_spawn (area, pname)</strong>
+    </dt>
+    <dd>
+    Whether a user can set the spawn of a plot
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">area</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">true</span></span>
+
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        </li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Error message</li>
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Tables"></a>Tables</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "valid_types"></a>
+    <strong>valid_types</strong>
+    </dt>
+    <dd>
+    Dictionary of valid types
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">commercial</span>
+
+        </li>
+        <li><span class="parameter">residential</span>
+
+        </li>
+        <li><span class="parameter">industrial</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "land"></a>
+    <strong>land</strong>
+    </dt>
+    <dd>
+    land table
+
+
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2019-01-17 18:46:31 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

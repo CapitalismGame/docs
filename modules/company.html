@@ -1,0 +1,961 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Capitalism Game Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Capitalism Game</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/audit.html">audit</a></li>
+  <li><a href="../modules/banking.html">banking</a></li>
+  <li><strong>company</strong></li>
+  <li><a href="../modules/land.html">land</a></li>
+  <li><a href="../modules/shop.html">shop</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/dev_intro.md.html">dev_intro</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>company</code></h1>
+<p>Introduces the concept of companies and the relationship between
+ companies and players.</p>
+<p> It adds permissions, but does not add stocks or shares.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#get_by_name">get_by_name (name)</a></td>
+	<td class="summary">Get a company by its name.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#check_name">check_name (name)</a></td>
+	<td class="summary">Verifies where a given string is a valid company name</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#create">create (obj)</a></td>
+	<td class="summary">Creates a new company from a company reference</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#add">add (obj)</a></td>
+	<td class="summary">Adds a company to in-memory store.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_active">set_active (pname, comp)</a></td>
+	<td class="summary">Set the active company for a player</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_active">get_active (pname)</a></td>
+	<td class="summary">Get active company for player name</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#check_perm">check_perm (pname, cname, permission, meta)</a></td>
+	<td class="summary">Check whether a player has a certain permission for a company</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_active_or_msg">get_active_or_msg (pname)</a></td>
+	<td class="summary">Get active company for player name,
+   or send chat message if no active companies.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_companies_for_player">get_companies_for_player (pname)</a></td>
+	<td class="summary">List companies player is a member or CEO of</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_perms">set_perms (comp, actor, target, permission, is_grant)</a></td>
+	<td class="summary">Set the permissions for a particular member on a company</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#register_panel">register_panel (def)</a></td>
+	<td class="summary">Register a panel, shown as colored boxes on the Company GUI</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#register_snippet">register_snippet (name, func)</a></td>
+	<td class="summary">Register a snippet to go on company switchers</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#show_company_select_dialog">show_company_select_dialog (name)</a></td>
+	<td class="summary">Shows dialog to select company</td>
+	</tr>
+</table>
+<h2><a href="#Tables">Tables</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#registered_panels">registered_panels</a></td>
+	<td class="summary"></td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#registered_snippets">registered_snippets</a></td>
+	<td class="summary"></td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#company">company</a></td>
+	<td class="summary">company table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#permissions">permissions</a></td>
+	<td class="summary">Permissions table</td>
+	</tr>
+</table>
+<h2><a href="#Class_Company">Class Company </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Company:new">Company:new (obj)</a></td>
+	<td class="summary">Constructor</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Company:to_table">Company:to_table ()</a></td>
+	<td class="summary">Export to Lua table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Company:from_table">Company:from_table (t)</a></td>
+	<td class="summary">Import from Lua table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Company:set_title_calc_name">Company:set_title_calc_name (title)</a></td>
+	<td class="summary">Calculate an appropriate name from a given title</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Company:get_ceo_name">Company:get_ceo_name ()</a></td>
+	<td class="summary">Get the name of the current CEO or president</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Company:get_ownership">Company:get_ownership (username)</a></td>
+	<td class="summary">How must does a particular username own of this company?</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Company:can_become_active">Company:can_become_active (username)</a></td>
+	<td class="summary">Whether a particular player can act as this company</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Company:check_perm">Company:check_perm (username, permission, meta)</a></td>
+	<td class="summary">Check whether a player has a certain permission</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Company:add_member">Company:add_member (username)</a></td>
+	<td class="summary">Adds a member to the company</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Company:is_government">Company:is_government ()</a></td>
+	<td class="summary">Check whether this company is a governmental entity.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "get_by_name"></a>
+    <strong>get_by_name (name)</strong>
+    </dt>
+    <dd>
+    Get a company by its name.
+ Company names are always in the form &ldquo;c:[a-z-_]+&rdquo;
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/company.html#Company">company.Company</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "check_name"></a>
+    <strong>check_name (name)</strong>
+    </dt>
+    <dd>
+    Verifies where a given string is a valid company name
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "create"></a>
+    <strong>create (obj)</strong>
+    </dt>
+    <dd>
+    Creates a new company from a company reference
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">obj</span>
+            <span class="types"><a class="type" href="../modules/company.html#Company">company.Company</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "add"></a>
+    <strong>add (obj)</strong>
+    </dt>
+    <dd>
+    Adds a company to in-memory store.</p>
+
+<p> Called by load and create.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">obj</span>
+            <span class="types"><a class="type" href="../modules/company.html#Company">company.Company</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_active"></a>
+    <strong>set_active (pname, comp)</strong>
+    </dt>
+    <dd>
+    Set the active company for a player  Performs permission checks.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">comp</span>
+            <span class="types"><a class="type" href="../modules/company.html#Company">company.Company</a> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_active"></a>
+    <strong>get_active (pname)</strong>
+    </dt>
+    <dd>
+    Get active company for player name
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types">optional <a class="type" href="../modules/company.html#Company">company.Company</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "check_perm"></a>
+    <strong>check_perm (pname, cname, permission, meta)</strong>
+    </dt>
+    <dd>
+    Check whether a player has a certain permission for a company  Calling with a nil or nonexistent company will always result in
+ a return value of false
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the username
+        </li>
+        <li><span class="parameter">cname</span>
+            <span class="types">optional <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">permission</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         permission name, string
+        </li>
+        <li><span class="parameter">meta</span>
+            <span class="types">optional <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Metadata about this request
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/company.html#permissions">company.permissions</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "get_active_or_msg"></a>
+    <strong>get_active_or_msg (pname)</strong>
+    </dt>
+    <dd>
+    Get active company for player name,
+   or send chat message if no active companies.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types">optional <a class="type" href="../modules/company.html#Company">company.Company</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_companies_for_player"></a>
+    <strong>get_companies_for_player (pname)</strong>
+    </dt>
+    <dd>
+    List companies player is a member or CEO of
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/company.html#Company">[company.Company]</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_perms"></a>
+    <strong>set_perms (comp, actor, target, permission, is_grant)</strong>
+    </dt>
+    <dd>
+    Set the permissions for a particular member on a company
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">comp</span>
+            <span class="types"><a class="type" href="../modules/company.html#Company">company.Company</a></span>
+
+        </li>
+        <li><span class="parameter">actor</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The player which is performing this action
+        </li>
+        <li><span class="parameter">target</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The member which is having their perms set
+        </li>
+        <li><span class="parameter">permission</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Permission name
+        </li>
+        <li><span class="parameter">is_grant</span>
+            <span class="types"><span class="type">bool</span></span>
+         Whether the permission should be added or taken away
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">true</span></span>
+
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        </li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        string Error message</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "register_panel"></a>
+    <strong>register_panel (def)</strong>
+    </dt>
+    <dd>
+    Register a panel, shown as colored boxes on the Company GUI
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">def</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "register_snippet"></a>
+    <strong>register_snippet (name, func)</strong>
+    </dt>
+    <dd>
+    Register a snippet to go on company switchers
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">func</span>
+            <span class="types"><span class="type">function</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "show_company_select_dialog"></a>
+    <strong>show_company_select_dialog (name)</strong>
+    </dt>
+    <dd>
+    Shows dialog to select company
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Player name to show to
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Tables"></a>Tables</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "registered_panels"></a>
+    <strong>registered_panels</strong>
+    </dt>
+    <dd>
+
+
+
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/company.html#register_panel">company.register_panel</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "registered_snippets"></a>
+    <strong>registered_snippets</strong>
+    </dt>
+    <dd>
+
+
+
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/company.html#register_snippet">company.register_snippet</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "company"></a>
+    <strong>company</strong>
+    </dt>
+    <dd>
+    company table
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "permissions"></a>
+    <strong>permissions</strong>
+    </dt>
+    <dd>
+    Permissions table
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">SWITCH_TO</span>
+
+        </li>
+        <li><span class="parameter">EDIT_DETAILS</span>
+
+        </li>
+        <li><span class="parameter">TRANSFER_MONEY</span>
+
+        </li>
+        <li><span class="parameter">TRANSFER_LAND</span>
+
+        </li>
+        <li><span class="parameter">SELL_LAND</span>
+
+        </li>
+        <li><span class="parameter">BUY_LAND</span>
+
+        </li>
+        <li><span class="parameter">INTERACT_AREA</span>
+
+        </li>
+        <li><span class="parameter">CHANGE_SPAWN</span>
+
+        </li>
+        <li><span class="parameter">OWNS_AREA</span>
+
+        </li>
+        <li><span class="parameter">SHOP_CREATE</span>
+
+        </li>
+        <li><span class="parameter">SHOP_ADMIN</span>
+
+        </li>
+        <li><span class="parameter">SHOP_CHEST</span>
+
+        </li>
+        <li><span class="parameter">BUY_ITEMS</span>
+
+        </li>
+        <li><span class="parameter">MANAGE_MEMBERS</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Class_Company"></a>Class Company </h2>
+
+          <div class="section-description">
+          Company  Class which represents a company or government entity.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "Company:new"></a>
+    <strong>Company:new (obj)</strong>
+    </dt>
+    <dd>
+    Constructor
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">obj</span>
+         A table to construct an object on top of
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/company.html#Company">company.Company</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Company:to_table"></a>
+    <strong>Company:to_table ()</strong>
+    </dt>
+    <dd>
+    Export to Lua table
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Company:from_table"></a>
+    <strong>Company:from_table (t)</strong>
+    </dt>
+    <dd>
+    Import from Lua table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        true on success, false on failure
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Company:set_title_calc_name"></a>
+    <strong>Company:set_title_calc_name (title)</strong>
+    </dt>
+    <dd>
+    Calculate an appropriate name from a given title
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">title</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Company:get_ceo_name"></a>
+    <strong>Company:get_ceo_name ()</strong>
+    </dt>
+    <dd>
+    Get the name of the current CEO or president
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Company:get_ownership"></a>
+    <strong>Company:get_ownership (username)</strong>
+    </dt>
+    <dd>
+    How must does a particular username own of this company?
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">username</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        Proportion of ownership, as a number out of 1.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Company:can_become_active"></a>
+    <strong>Company:can_become_active (username)</strong>
+    </dt>
+    <dd>
+    Whether a particular player can act as this company
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">username</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Company:check_perm"></a>
+    <strong>Company:check_perm (username, permission, meta)</strong>
+    </dt>
+    <dd>
+    Check whether a player has a certain permission
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">username</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the username
+        </li>
+        <li><span class="parameter">permission</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         permission name, string
+        </li>
+        <li><span class="parameter">meta</span>
+            <span class="types">optional <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Metadata about this request
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/company.html#permissions">company.permissions</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Company:add_member"></a>
+    <strong>Company:add_member (username)</strong>
+    </dt>
+    <dd>
+    Adds a member to the company  Members are players other than the CEO that can have permissions
+ granted to them by the company
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">username</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">Member</span></span>
+        table
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Company:is_government"></a>
+    <strong>Company:is_government ()</strong>
+    </dt>
+    <dd>
+    Check whether this company is a governmental entity.</p>
+
+<p> Note: does NOT check whether the company is public or government-owned.
+ This condition imposes certain requirements on the government entity,
+ such as elections and voting, which do not make sense with government-owned
+ companies.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2019-01-17 18:46:31 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

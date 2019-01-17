@@ -1,0 +1,368 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Capitalism Game Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Capitalism Game</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/audit.html">audit</a></li>
+  <li><a href="../modules/banking.html">banking</a></li>
+  <li><a href="../modules/company.html">company</a></li>
+  <li><a href="../modules/land.html">land</a></li>
+  <li><strong>shop</strong></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/dev_intro.md.html">dev_intro</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>shop</code></h1>
+<p>Adds shops</p>
+<p></p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#get_by_area">get_by_area (aid)</a></td>
+	<td class="summary">Get a shop by its <a href="../modules/land.html#">land</a> area ID</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_by_pos">get_by_pos (pos)</a></td>
+	<td class="summary"></td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#add_shop">add_shop (s)</a></td>
+	<td class="summary"></td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#can_admin">can_admin (pname, pos)</a></td>
+	<td class="summary">Checks whether a user can use the admin interface for the shop</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#create_shop">create_shop (pname, pos)</a></td>
+	<td class="summary">Creates shops, checks permissions</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#unassign_chest">unassign_chest (s, pos, inv)</a></td>
+	<td class="summary">Unassigns item allocation of chest.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#can_buy">can_buy (pos, pname, itemname, count, price)</a></td>
+	<td class="summary">Can user buy from shop, checks permissions</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#buy">buy (pos, pname, item, count)</a></td>
+	<td class="summary">Buy from shop, checks permissions</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "get_by_area"></a>
+    <strong>get_by_area (aid)</strong>
+    </dt>
+    <dd>
+    Get a shop by its <a href="../modules/land.html#">land</a> area ID
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">aid</span>
+            <span class="types"><span class="type">int</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_by_pos"></a>
+    <strong>get_by_pos (pos)</strong>
+    </dt>
+    <dd>
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "add_shop"></a>
+    <strong>add_shop (s)</strong>
+    </dt>
+    <dd>
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">s</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "can_admin"></a>
+    <strong>can_admin (pname, pos)</strong>
+    </dt>
+    <dd>
+    Checks whether a user can use the admin interface for the shop
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "create_shop"></a>
+    <strong>create_shop (pname, pos)</strong>
+    </dt>
+    <dd>
+    Creates shops, checks permissions
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">true</span></span>
+
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        </li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Error message</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "unassign_chest"></a>
+    <strong>unassign_chest (s, pos, inv)</strong>
+    </dt>
+    <dd>
+    Unassigns item allocation of chest.  Will return any items.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">s</span>
+            <span class="types"><span class="type">shop.Shop</span></span>
+
+        </li>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">inv</span>
+         Inventory userdata
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "can_buy"></a>
+    <strong>can_buy (pos, pname, itemname, count, price)</strong>
+    </dt>
+    <dd>
+    Can user buy from shop, checks permissions
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">itemname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">count</span>
+            <span class="types"><span class="type">int</span></span>
+
+        </li>
+        <li><span class="parameter">price</span>
+            <span class="types"><span class="type">int</span></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">true</span></span>
+
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        </li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Error message</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "buy"></a>
+    <strong>buy (pos, pname, item, count)</strong>
+    </dt>
+    <dd>
+    Buy from shop, checks permissions
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">pname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">item</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">count</span>
+            <span class="types"><span class="type">int</span></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">true</span></span>
+
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        </li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Error message</li>
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2019-01-17 18:46:31 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

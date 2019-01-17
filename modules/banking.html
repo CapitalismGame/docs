@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Capitalism Game Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Capitalism Game</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/audit.html">audit</a></li>
+  <li><strong>banking</strong></li>
+  <li><a href="../modules/company.html">company</a></li>
+  <li><a href="../modules/land.html">land</a></li>
+  <li><a href="../modules/shop.html">shop</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/dev_intro.md.html">dev_intro</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>banking</code></h1>
+<p>Introduces bank accounts and transactions.</p>
+<p></p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#get_balance">get_balance (owner)</a></td>
+	<td class="summary">Gets the balance for a particular account</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#add_account">add_account (acc)</a></td>
+	<td class="summary">Adds an account to the local cache</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_by_owner">get_by_owner (owner)</a></td>
+	<td class="summary">Gets account by owner name</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#transfer">transfer (actor, from, to, amount, reason)</a></td>
+	<td class="summary">Transfers money between accounts, with permission checking</td>
+	</tr>
+</table>
+<h2><a href="#Tables">Tables</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#banking">banking</a></td>
+	<td class="summary">banking table</td>
+	</tr>
+</table>
+<h2><a href="#Class_Account">Class Account </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Account:new">Account:new (obj)</a></td>
+	<td class="summary">Constructor</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Account:to_table">Account:to_table ()</a></td>
+	<td class="summary">Export to Lua table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Account:from_table">Account:from_table (t)</a></td>
+	<td class="summary">Import from Lua table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Account:withdraw">Account:withdraw (amount, to, reason)</a></td>
+	<td class="summary">Withdraw from account</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Account:deposit">Account:deposit (amount, from, reason)</a></td>
+	<td class="summary">Deposit into account</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "get_balance"></a>
+    <strong>get_balance (owner)</strong>
+    </dt>
+    <dd>
+    Gets the balance for a particular account
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">owner</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Account owner
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">int</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "add_account"></a>
+    <strong>add_account (acc)</strong>
+    </dt>
+    <dd>
+    Adds an account to the local cache
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">acc</span>
+            <span class="types"><a class="type" href="../modules/banking.html#Account">banking.Account</a></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_by_owner"></a>
+    <strong>get_by_owner (owner)</strong>
+    </dt>
+    <dd>
+    Gets account by owner name
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">owner</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/banking.html#Account">banking.Account</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "transfer"></a>
+    <strong>transfer (actor, from, to, amount, reason)</strong>
+    </dt>
+    <dd>
+    Transfers money between accounts, with permission checking
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">actor</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         User requesting this transfer
+        </li>
+        <li><span class="parameter">from</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         From account
+        </li>
+        <li><span class="parameter">to</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Target account
+        </li>
+        <li><span class="parameter">amount</span>
+            <span class="types"><span class="type">int</span></span>
+
+        </li>
+        <li><span class="parameter">reason</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Transaction reason
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">true</span></span>
+
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        </li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Error message</li>
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Tables"></a>Tables</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "banking"></a>
+    <strong>banking</strong>
+    </dt>
+    <dd>
+    banking table
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Class_Account"></a>Class Account </h2>
+
+          <div class="section-description">
+          Account  Class which represents a bank account
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "Account:new"></a>
+    <strong>Account:new (obj)</strong>
+    </dt>
+    <dd>
+    Constructor
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">obj</span>
+         A table to construct an object on top of
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/banking.html#Account">banking.Account</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Account:to_table"></a>
+    <strong>Account:to_table ()</strong>
+    </dt>
+    <dd>
+    Export to Lua table
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Account:from_table"></a>
+    <strong>Account:from_table (t)</strong>
+    </dt>
+    <dd>
+    Import from Lua table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        true for success
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Account:withdraw"></a>
+    <strong>Account:withdraw (amount, to, reason)</strong>
+    </dt>
+    <dd>
+    Withdraw from account
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">amount</span>
+            <span class="types"><span class="type">int</span></span>
+
+        </li>
+        <li><span class="parameter">to</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         target account
+        </li>
+        <li><span class="parameter">reason</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Transaction message
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Returns false on failure
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Account:deposit"></a>
+    <strong>Account:deposit (amount, from, reason)</strong>
+    </dt>
+    <dd>
+    Deposit into account
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">amount</span>
+            <span class="types"><span class="type">int</span></span>
+
+        </li>
+        <li><span class="parameter">from</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         from account
+        </li>
+        <li><span class="parameter">reason</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Transaction message
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2019-01-17 18:46:31 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
