@@ -90,6 +90,66 @@
 	<td class="summary">Buy from shop, checks permissions</td>
 	</tr>
 </table>
+<h2><a href="#Class_Shop">Class Shop </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Shop.StockedItem">Shop.StockedItem</a></td>
+	<td class="summary">StockedItem</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Shop.Chest">Shop.Chest</a></td>
+	<td class="summary">Chest</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Shop:new">Shop:new (obj)</a></td>
+	<td class="summary">Constructor</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Shop:to_table">Shop:to_table ()</a></td>
+	<td class="summary">Export to Lua table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Shop:from_table">Shop:from_table (tab)</a></td>
+	<td class="summary">Import from Lua table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Shop:get_items">Shop:get_items ()</a></td>
+	<td class="summary">Get table of items sold by this shop</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Shop:get_item">Shop:get_item (name)</a></td>
+	<td class="summary">Get <a href="../modules/shop.html#Shop.StockedItem">StockedItem</a> by item name</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Shop:get_item_or_make">Shop:get_item_or_make (name)</a></td>
+	<td class="summary">Get stock item table by item name, or make it if it doesn&rsquo;t exist.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Shop:add_chest">Shop:add_chest (pos)</a></td>
+	<td class="summary">Add a chest to store stock in</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Shop:get_chest">Shop:get_chest (pos)</a></td>
+	<td class="summary">Get a chest by pos</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Shop:get_chests_for_item">Shop:get_chests_for_item (name, count, filter)</a></td>
+	<td class="summary">Get a list of chests which contain enough itmes to
+ fulfill the requested name and count, or nil</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Shop:chest_poll">Shop:chest_poll (pos, inv)</a></td>
+	<td class="summary">Reads chest inventory, and updates stock counts</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Shop:chest_add_item">Shop:chest_add_item (pos, stack)</a></td>
+	<td class="summary">An item has been added to a chest, make note of it</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Shop:chest_remove_item">Shop:chest_remove_item (pos, stack)</a></td>
+	<td class="summary">An item has been removed from a chest, make note of it</td>
+	</tr>
+</table>
 
 <br/>
 <br/>
@@ -237,7 +297,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">s</span>
-            <span class="types"><span class="type">shop.Shop</span></span>
+            <span class="types"><a class="type" href="../modules/shop.html#Shop">shop.Shop</a></span>
 
         </li>
         <li><span class="parameter">pos</span>
@@ -355,13 +415,389 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="Class_Shop"></a>Class Shop </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Shop.StockedItem"></a>
+    <strong>Shop.StockedItem</strong>
+    </dt>
+    <dd>
+    StockedItem
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">Item</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         name
+        </li>
+        <li><span class="parameter">Count</span>
+            <span class="types"><span class="type">int</span></span>
+         sold
+        </li>
+        <li><span class="parameter">Set</span>
+            <span class="types"><span class="type">int</span></span>
+         price, -1 for not for sale
+        </li>
+        <li><span class="parameter">Count</span>
+            <span class="types"><span class="type">int</span></span>
+         sold
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Shop.Chest"></a>
+    <strong>Shop.Chest</strong>
+    </dt>
+    <dd>
+    Chest
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Position
+        </li>
+        <li><span class="parameter">itemname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Assigned item name, nil for unassigned
+        </li>
+        <li><span class="parameter">count</span>
+            <span class="types"><span class="type">int</span></span>
+         Stored item count
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Shop:new"></a>
+    <strong>Shop:new (obj)</strong>
+    </dt>
+    <dd>
+    Constructor
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">obj</span>
+         A table to construct an object on top of
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/company.html#Company">company.Company</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Shop:to_table"></a>
+    <strong>Shop:to_table ()</strong>
+    </dt>
+    <dd>
+    Export to Lua table
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Shop:from_table"></a>
+    <strong>Shop:from_table (tab)</strong>
+    </dt>
+    <dd>
+    Import from Lua table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tab</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        true on success, false on failure
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Shop:get_items"></a>
+    <strong>Shop:get_items ()</strong>
+    </dt>
+    <dd>
+    Get table of items sold by this shop
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        Keys are resolved item names, values are <a href="../modules/shop.html#Shop.StockedItem">StockedItem</a>.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Shop:get_item"></a>
+    <strong>Shop:get_item (name)</strong>
+    </dt>
+    <dd>
+    Get <a href="../modules/shop.html#Shop.StockedItem">StockedItem</a> by item name
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Shop:get_item_or_make"></a>
+    <strong>Shop:get_item_or_make (name)</strong>
+    </dt>
+    <dd>
+    Get stock item table by item name, or make it if it doesn&rsquo;t exist.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Shop:add_chest"></a>
+    <strong>Shop:add_chest (pos)</strong>
+    </dt>
+    <dd>
+    Add a chest to store stock in
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        chest table
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Shop:get_chest"></a>
+    <strong>Shop:get_chest (pos)</strong>
+    </dt>
+    <dd>
+    Get a chest by pos
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        chest table
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Shop:get_chests_for_item"></a>
+    <strong>Shop:get_chests_for_item (name, count, filter)</strong>
+    </dt>
+    <dd>
+    Get a list of chests which contain enough itmes to
+ fulfill the requested name and count, or nil
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Item name
+        </li>
+        <li><span class="parameter">count</span>
+            <span class="types"><span class="type">int</span></span>
+         Number of items, >0
+        </li>
+        <li><span class="parameter">filter</span>
+            <span class="types"><span class="type">func</span></span>
+         func(chest_table)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">[table]</a> or <span class="type">nil</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Shop:chest_poll"></a>
+    <strong>Shop:chest_poll (pos, inv)</strong>
+    </dt>
+    <dd>
+    Reads chest inventory, and updates stock counts  This should be avoided, and the incremental methods used instead.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">inv</span>
+            <span class="types"><span class="type">InvRef</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Shop:chest_add_item"></a>
+    <strong>Shop:chest_add_item (pos, stack)</strong>
+    </dt>
+    <dd>
+    An item has been added to a chest, make note of it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">stack</span>
+            <span class="types"><span class="type">ItemStack</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Shop:chest_remove_item"></a>
+    <strong>Shop:chest_remove_item (pos, stack)</strong>
+    </dt>
+    <dd>
+    An item has been removed from a chest, make note of it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">stack</span>
+            <span class="types"><span class="type">ItemStack</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-01-17 18:55:09 </i>
+<i style="float:right;">Last updated 2019-01-18 21:14:37 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
